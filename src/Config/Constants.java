@@ -14,7 +14,7 @@ public class Constants {
     public static final int maxY = sizey / size;
 
     public static final String TETRIS_DB_DRIVER = "com.mysql.cj.jdbc.Driver";
-    public static final String TETRIS_URL = "localhost:8080/tetris_game";
+    public static final String TETRIS_URL = "jdbc:mysql://localhost:3306/tetris_game";
     public static final String TETRIS_USER = "root";
     public static final String TETRIS_PASSWORD = "";
 

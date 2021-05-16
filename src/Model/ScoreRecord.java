@@ -48,8 +48,22 @@ public class ScoreRecord{
         }
 
     }
-    public void writeHightScore(){
-
+    public void writeHightScore() throws SQLException{
+        Connection conn = null;
+        Statement stmt = null;
+        try{
+            conn = DriverManager.getConnection(Constants.TETRIS_URL, Constants.TETRIS_USER, Constants.TETRIS_PASSWORD);
+            stmt = conn.createStatement();
+            String sql = "INSERT INTO `scorerecord`(`Score`) VALUES ("+ score +");";
+            stmt.executeUpdate(sql);
+        }finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
     }
 
     public int getHighsocre() {
@@ -58,9 +72,5 @@ public class ScoreRecord{
 
     public void setHighsocre() throws SQLException {
         readHightScore();
-        if(score > highsocre){
-            highsocre = score;
-            writeHightScore();
-        }
     }
 }

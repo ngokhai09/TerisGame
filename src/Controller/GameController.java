@@ -22,10 +22,10 @@ public class GameController extends JPanel implements GameFeature, Runnable {
     private Square[][] game = new Square[(Constants.sizey + Constants.size) / Constants.size + 10][(Constants.sizex + Constants.size) / Constants.size + 10];
 
 
-    // Quản Lý Luồng
+    // Các biến luồng
     private Thread thread1;
     private Thread thread2;
-    //Chạy game
+    //Chạy Game
     Shape shape;
     public int rdh = 0, rdn = 0;
 
@@ -99,6 +99,11 @@ public class GameController extends JPanel implements GameFeature, Runnable {
 
             }
 
+        }
+        try {
+            scoreRecord.writeHightScore();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
         JOptionPane.showMessageDialog(null, "You Loss", "End Game", JOptionPane.WARNING_MESSAGE);
     }
@@ -186,7 +191,9 @@ public class GameController extends JPanel implements GameFeature, Runnable {
                 }
             }
             if (cnt == Constants.maxX) {
-                for (int k = i; k > 0; k++) {
+            	g.setColor(Color.GRAY);
+				g.fillRect(1, i*20+1, Constants.sizex, 20);
+                for (int k = i; k > 0; k--) {
                     for (int j = 0; j < Constants.maxX; j++) {
                         game[k][j].setColor(game[k - 1][j].getColor());
                         game[k][j].setRong(game[k - 1][j].isRong());
@@ -200,6 +207,7 @@ public class GameController extends JPanel implements GameFeature, Runnable {
                 slt++;
             }
         }
+        scoreRecord.setScore(score);
     }
 
 
@@ -209,7 +217,7 @@ public class GameController extends JPanel implements GameFeature, Runnable {
         System.exit(0);
     }
     public void paint(Graphics g){
-        g.setColor(Color.BLACK);
+        g.setColor(Color.GRAY);
         g.fillRect(1, 1, Constants.sizex + 240, Constants.sizey + 1);
         Grid(g);
         try {
@@ -270,8 +278,8 @@ public class GameController extends JPanel implements GameFeature, Runnable {
     }
     public void printColor(Graphics g){
         int s = 18;
-        for(int i = 0; i < Constants.maxX; i++){
-            for(int j = 0; j < Constants.maxY; j++){
+        for(int i = 0; i < Constants.maxY; i++){
+            for(int j = 0; j < Constants.maxX; j++){
                 int tx = game[i][j].getDiem().getX();
                 int ty = game[i][j].getDiem().getY();
                 if(game[i][j].getColor() > 0){
@@ -327,7 +335,7 @@ public class GameController extends JPanel implements GameFeature, Runnable {
     public void Control(Graphics g) throws SQLException {
         Font font = new Font("ToolTipText", 1,14);
         g.setFont(font);
-        // Vẽ 1 hình vuông hiển thị hình tiếp theo
+        // Váº½ 1 hÃ¬nh vuÃ´ng hiá»ƒn thá»‹ hÃ¬nh tiáº¿p theo
         paintnext(g);
         g.setColor(Color.RED);
         g.drawRect(261,50,100,100);
