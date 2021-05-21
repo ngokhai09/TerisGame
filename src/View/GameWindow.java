@@ -19,15 +19,16 @@ public class GameWindow {
     JFrame frame;
 
     public void init() throws IOException {
-        ScoreRecord.loadDriver();
+        ScoreRecord.loadDriver(); // Tải driver để kết nối với MySQL
         frame = new JFrame("Tetris Game");
         gamet  = new GameController();
         frame.add(gamet);
-        frame.setSize(480, 481);
+        frame.setSize(Constants.WIDTH, Constants.HEIGHT);
         frame.setResizable(false);
 
         SelectMenu menu = new SelectMenu();
         frame.setJMenuBar(menu);
+        // Gán hành động cho nút new game
         menu.getNewGame().addActionListener(new ActionListener() {
 
             @Override

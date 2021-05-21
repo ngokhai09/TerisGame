@@ -43,10 +43,9 @@ public class GameController extends JPanel implements GameFeature, Runnable {
 
     @Override
     public void run() {
+        // random hình
         rdh = 1 + random.nextInt(7);
         while (endgame() == false) {
-            int row = 0;
-            int check = 0;
             xrun = Constants.sizex / 2 + 1;
             yrun = 0;
             switch (rdh) {
@@ -75,6 +74,7 @@ public class GameController extends JPanel implements GameFeature, Runnable {
             rdh = 1 + random.nextInt(7);
             rdn = rdh;
             while (true) {
+                // Tạo độ trễ cho hình rơi
                 try {
                     thread1.sleep(Constants.TIME);
                 } catch (InterruptedException e) {
@@ -86,6 +86,7 @@ public class GameController extends JPanel implements GameFeature, Runnable {
                 if (shape == null) {
                     break;
                 }
+                // Kiểm tra xem hình có xem còn đi xuống được nữa ko. Có thì sẽ thêm hình vào bảng quản lý
                 if (shape.touch(game) == true) {
                     shape.addvalue(game);
                     break;
@@ -100,6 +101,7 @@ public class GameController extends JPanel implements GameFeature, Runnable {
             }
 
         }
+        // Lưu điểm lên database
         try {
             scoreRecord.writeHightScore();
         } catch (SQLException throwables) {
@@ -181,9 +183,8 @@ public class GameController extends JPanel implements GameFeature, Runnable {
 
     @Override
     public void checkpoint(Graphics g) {
-        int s = 19;
-        int slt = 0;
         for (int i = 0; i < Constants.maxY; i++) {
+            // Biến đếm xem có bao nhiêu cột của hàng đã có gạch
             int cnt = 0;
             for (int j = 0; j < Constants.maxX; j++) {
                 if (game[i][j].isRong() == false) {
@@ -191,8 +192,10 @@ public class GameController extends JPanel implements GameFeature, Runnable {
                 }
             }
             if (cnt == Constants.maxX) {
+                // Tô lại màu nền cho hàng đã đầy
             	g.setColor(Color.GRAY);
 				g.fillRect(1, i*20+1, Constants.sizex, 20);
+				// Cập nhật lại trạng thái rỗng và màu cho từng cột của hàng
                 for (int k = i; k > 0; k--) {
                     for (int j = 0; j < Constants.maxX; j++) {
                         game[k][j].setColor(game[k - 1][j].getColor());
@@ -204,7 +207,6 @@ public class GameController extends JPanel implements GameFeature, Runnable {
                 }
                 printColor(g);
                 score += 500;
-                slt++;
             }
         }
         scoreRecord.setScore(score);
@@ -225,6 +227,7 @@ public class GameController extends JPanel implements GameFeature, Runnable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        // Tô màu cho hình rơi xuống
         if (shape == null) {
             return;
         } else {
@@ -232,49 +235,7 @@ public class GameController extends JPanel implements GameFeature, Runnable {
         }
         checkpoint(g);
         int s = 18;
-        for(int i = 0; i < Constants.maxY; i++){
-            for(int j = 0; j < Constants.maxX; j++){
-                int tx = game[i][j].getDiem().getX();
-                int ty = game[i][j].getDiem().getY();
-                if(game[i][j].getColor() > 0){
-                    if (game[i][j].getColor()==1)
-                    {
-                        g.setColor(Color.RED);
-                        g.fillRect(tx, ty, s, s);
-                    }
-                    if (game[i][j].getColor()==2)
-                    {
-                        g.setColor(Color.BLUE);
-                        g.fillRect(tx, ty, s, s);
-                    }
-                    if (game[i][j].getColor()==3)
-                    {
-                        g.setColor(Color.CYAN);
-                        g.fillRect(tx, ty, s, s);
-                    }
-                    if (game[i][j].getColor()==4)
-                    {
-                        g.setColor(Color.YELLOW);
-                        g.fillRect(tx, ty, s, s);
-                    }
-                    if (game[i][j].getColor()==5)
-                    {
-                        g.setColor(Color.GREEN);
-                        g.fillRect(tx, ty, s, s);
-                    }
-                    if (game[i][j].getColor()==6)
-                    {
-                        g.setColor(Color.PINK);
-                        g.fillRect(tx, ty, s, s);
-                    }
-                    if (game[i][j].getColor()==7)
-                    {
-                        g.setColor(Color.ORANGE);
-                        g.fillRect(tx, ty, s, s);
-                    }
-                }
-            }
-        }
+        printColor(g);
     }
     public void printColor(Graphics g){
         int s = 18;
@@ -324,6 +285,7 @@ public class GameController extends JPanel implements GameFeature, Runnable {
     }
 
     public void Grid(Graphics g){
+        // Kẻ ô caro
         g.setColor(Color.WHITE);
         for(int i = 0; i <= Constants.maxX; i++){
             g.drawLine(i * Constants.size + 1, 1, i * Constants.size + 1, 481);
@@ -335,7 +297,7 @@ public class GameController extends JPanel implements GameFeature, Runnable {
     public void Control(Graphics g) throws SQLException {
         Font font = new Font("ToolTipText", 1,14);
         g.setFont(font);
-        // Váº½ 1 hÃ¬nh vuÃ´ng hiá»ƒn thá»‹ hÃ¬nh tiáº¿p theo
+        // Vẽ khung hình hiển thị hình dạng gạch hiện liên tiếp theo
         paintnext(g);
         g.setColor(Color.RED);
         g.drawRect(261,50,100,100);

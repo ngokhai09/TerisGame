@@ -60,14 +60,4 @@ public interface Shape {
      * false la khong xoay duoc
      */
 
-
-    /*
-     * cần override vì:
-     * có nhiều trường hợp xoay hình nhưng bị vướng hình đã có
-     * hoặc hết màn hình thì luật xoay sẽ không đồng nhất
-     * gây ra hiện tượng tràn màn hình.
-     * hoặc khi xoay thì lại di chuyển sai và bị đè hình
-     * rồi khi move thì giá trị của truyền vào từ game sẽ k bị chuyển sẽ k dịch chuyển
-     * các phần này là fix hết lỗi vặt
-     */
 }

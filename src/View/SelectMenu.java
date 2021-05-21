@@ -35,9 +35,8 @@ public class SelectMenu extends JMenuBar{
         fileMenu.addSeparator();
         Exit = new JMenuItem("Exit");
         fileMenu.add(Exit);
-        //action file
+        // Gán hành động thoát cho nút exit
         Exit.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
@@ -48,9 +47,8 @@ public class SelectMenu extends JMenuBar{
         //Help
         Tutorial = new JMenuItem("Tutorial");
         helpMenu.add(Tutorial);
-
+        // Gán hành động khi ấn vào nút Tutorial
         Tutorial.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 String s="Cách chơi:\n"
